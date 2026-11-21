@@ -1,0 +1,12 @@
+*.class
+*.o
+*.mod
+*.mod.c
+*.mod.o
+*.order
+*.symvers
+.*.cmd
+boot.img
+magisk-boot.img
+magisk_patched-*.img
+Magisk-v31.1.apk

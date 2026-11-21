@@ -1,0 +1,30 @@
+# Lessons: what worked and what to avoid
+
+Things learned while building and testing the chain. Procedure: `SKILL.md`. Verified state and artifact hashes: `docs/STATUS.md`. Warnings for users: `README.md`.
+
+## What worked (verified)
+
+- The Magisk-patched boot image (`magisk_patched-31100.img`) is in the boot partition (hash checked) and boots. `magiskd` runs from the ramdisk.
+- The DirtyFrag chain reached the boot write: hook fired, bootstrap started, `dd` finished, marker `/dev/dfm6`.
+- The SELinux domain transition works via `execve` into `/vendor/bin/insmod`. Writing the context to `/proc/self/attr/exec` alone does not change the domain. The context applies on the next `execve`.
+- The `/dev/df` mutex needs plain `O_CREAT|O_EXCL`. Removing the file before opening disables the lock.
+- After the Magisk app's initial setup and a reboot, clearing its data gave root to the ADB shell at once.
+
+## Pitfalls
+
+- `unlink("/dev/df")` before `O_EXCL` in the shellcode: the mutex does not block the next run.
+- `init_module` called from the init domain fails the `module_load` policy. The permission exists only for `rootfs`. Use `execve` of insmod instead. The v5 shellcode used `init_module` and failed.
+- A short `splice` midway through the KO write (e.g. at block 15) aborts the exploit. The patches stay in the page cache and disappear only after a reboot. Restoring `libbinderdebug.so` may fail.
+- The kernel module ends with `-ENODEV` after the bootstrap has run, so it disappears from `/proc/modules`. The bootstrap still runs. The `insmod` exit code is odd.
+- `dmesg` and `/proc/kmsg` are blocked for the ADB shell. Kernel diagnostics need the bootstrap, running as root, to write logs.
+- The `/data` partition may be damaged before the boot write. The `fs_mgr_mount_all` error was visible on the watch screen before the write. A factory reset removed it.
+- After a reboot the system has a high load (ART optimization, `kswapd`). SA processes can sit in state D. Wait for the load to drop before running the exploit.
+- Screenshots and `uiautomator dump` leave files on the watch. Delete them after use.
+
+## Unresolved
+
+- The cause of the bootloop after the first start with the Magisk image. A damaged `/data` partition is suspected, but without logs this cannot be confirmed.
+- The cause of the odd `insmod` exit code, and whether the `-ENODEV` return is intentional. The code has no comment about the intent.
+- Whether every future run must write the boot partition. `dfroot_bootstrap` does it without a backup.
+- The mechanism by which the Magisk app's initial setup and data clearing give root.
+- The behavior on a locked bootloader. Not tested.
