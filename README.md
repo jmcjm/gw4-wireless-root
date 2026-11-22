@@ -58,6 +58,10 @@ The binaries in `bin/` work only with the same firmware version. After a firmwar
 - [DFRoot](https://github.com/diabl0w/DFRoot), the reference implementation of the same chain on arm64 devices. The SELinux and DEFEX handling here follows it.
 - [Magisk](https://github.com/topjohnwu/Magisk) by topjohnwu.
 
+## License
+
+GPL-2.0-only; see [LICENSE.md](LICENSE.md) for terms and third-party material, and [COPYING](COPYING) for the full license text.
+
 ## Disclaimer
 
 No warranty. Use at your own risk.
