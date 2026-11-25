@@ -80,7 +80,7 @@ cp src/dfroot_w4.ko bin/
 2. Check `CONFIG_*` in the new `/proc/config.gz` (struct module layout)
 3. Extract the symbol CRCs from the new vmlinux into `Module.symvers.watch4`
 4. Rebuild the KO against the new kernel tree
-5. Patch boot.img with Magisk on the watch
+5. Patch boot.img with Magisk (`SKILL.md`, step 1; the ADB shell route needs no tap on the watch)
 6. Run the chain with the new binaries
 
 ## adbkeeper APK

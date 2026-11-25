@@ -23,21 +23,30 @@ lz4 -d boot.img.lz4 boot.img
 # SHA-256 stock: 026bf467bfba1634ee552939abe5a4067966afa22d3a59085e89fa57059e9828
 ```
 
-### 1. Patching with Magisk on the watch
+### 1. Patching boot.img with Magisk from the ADB shell
 
-Magisk patches the file without root.
+The Magisk app does its patch with `boot_patch.sh` and binaries from its APK. The same script runs from the ADB shell, so no tap on the watch is needed and the Magisk app is not required for this step. Magisk does not need root for it. The APK is only unpacked on the computer; the Magisk app is installed later, in step 5.
 
-```sh
-adb push boot.img /sdcard/Download/boot.img
-adb install apk/Magisk-v31.1.apk
-```
-
-On the watch: Magisk → Install → Patch firmware / image → `boot.img`.
+Verified on SM-R860 (One UI 6, kernel 4.19.151) with the Magisk 31.1 APK. On SM-R870 this method has not been run.
 
 ```sh
-adb pull /sdcard/Download/magisk_patched-*.img magisk-boot.img
+unzip -q Magisk-v31.1.apk -d magisk-apk
+W=/data/local/tmp/magisk-patch
+adb shell "rm -rf $W && mkdir -p $W"
+adb push magisk-apk/assets/boot_patch.sh magisk-apk/assets/util_functions.sh $W/
+adb push magisk-apk/lib/armeabi-v7a/libmagiskboot.so $W/magiskboot
+adb push magisk-apk/lib/armeabi-v7a/libmagiskinit.so $W/magiskinit
+adb push magisk-apk/lib/armeabi-v7a/libmagisk.so $W/magisk
+adb push magisk-apk/lib/armeabi-v7a/libinit-ld.so $W/init-ld
+adb push boot.img $W/boot.img
+adb shell "cd $W && chmod 755 magiskboot magiskinit magisk init-ld && BOOTMODE=false sh boot_patch.sh boot.img"
+adb pull $W/new-boot.img magisk-boot.img
 adb push magisk-boot.img /data/local/tmp/magisk-boot.img
 ```
+
+`BOOTMODE=false` is needed: in boot mode the script calls `magisk --preinit-device`, which this way of running does not set up. The run ends with `Repack to boot image: [new-boot.img]` and exit code 0. Output lines such as `Failed to patch` are not all errors. On SM-R860 the first hexpatch (the Samsung RKP removal) prints `Failed to patch`, so RKP stays in that kernel. That was not checked further, and the chain on SM-R860 is unverified.
+
+The GUI route still works: Magisk → Install → Patch firmware / image → `boot.img` on the watch, then `adb pull /sdcard/Download/magisk_patched-*.img magisk-boot.img`.
 
 A saved `magisk-boot.img` from the same firmware version can be reused.
 
