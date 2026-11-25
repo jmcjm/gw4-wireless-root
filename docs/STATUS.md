@@ -46,7 +46,7 @@ Binaries and sources marked "this repository" are in the repo. The two boot imag
 | Bootstrap (`bin/oneui8/dfroot_bootstrap`) | `a7706f3d18c8eb3c6035fbb66bd48892416cba7db3365680f91bfc2ed1f51333` | this repository, `src/dfroot_bootstrap` |
 | Shellcode v6 (`bin/oneui8/df_shellcode.bin`) | `b8000b057c61177813697a14ead82e1c919aa56fe38859bc3620effafbc0f222` | this repository, built from `src/shellcode_v6.S` |
 | classes.dex (`bin/oneui8/classes.dex`) | `91b2a0dd3d76a4e6c41f4c7c9be9ec4c16ee66c16d01531bde48f66d105f6246` | this repository, built from `src/DirtyFragSetup.java` |
-| Exploit (`bin/oneui8/dirtyfrag_exploit`, diagnostic build) | `59138b56e5f5930907c174063e5a0f7ba2b664b96790c7b013cb7b71ca8ec200` | this repository, built from `src/dirtyfrag_exploit.c` |
+| Exploit (`bin/oneui8/dirtyfrag_exploit`, diagnostic build) | `59138b56e5f5930907c174063e5a0f7ba2b664b96790c7b013cb7b71ca8ec200` | this repository, built from `src/dirtyfrag_exploit.c` before the two-block trampoline fix, NDK r29 |
 | Splicehelper (`bin/oneui8/splicehelper`) | `e32db45008c9bdf6e0b753e6f81d2cee8befc6b4cf44a4d380e6f363d16d2893` | this repository, `src/splicehelper.c` |
 
 ### One UI 6 (`bin/oneui6/`, firmware `R860XXU1IYI1`, kernel 4.19.151)
@@ -60,7 +60,7 @@ The set is prepared, but not verified on a device. The Magisk-patched image for 
 | Shellcode v7 (`bin/oneui6/df_shellcode.bin`) | `a027b93946210812481d3f3fb8454ad775e2c0823f8fbb944effbb860d5e95d1` | this repository, built from `src/shellcode_v7.S`, 296 B |
 | Bootstrap (`bin/oneui6/dfroot_bootstrap`) | `a7706f3d18c8eb3c6035fbb66bd48892416cba7db3365680f91bfc2ed1f51333` | copy of `bin/oneui8/dfroot_bootstrap` |
 | classes.dex (`bin/oneui6/classes.dex`) | `91b2a0dd3d76a4e6c41f4c7c9be9ec4c16ee66c16d01531bde48f66d105f6246` | copy of `bin/oneui8/classes.dex` |
-| Exploit (`bin/oneui6/dirtyfrag_exploit`) | `59138b56e5f5930907c174063e5a0f7ba2b664b96790c7b013cb7b71ca8ec200` | copy of `bin/oneui8/dirtyfrag_exploit` |
+| Exploit (`bin/oneui6/dirtyfrag_exploit`) | `2978641cf423dd9422b97756843f2d5473d48970a344921fb1167f29e0fa25c8` | this repository, built from `src/dirtyfrag_exploit.c` with NDK r30 (API 28, ELF note says Android 37); includes the two-block trampoline fix |
 | Splicehelper (`bin/oneui6/splicehelper`) | `e32db45008c9bdf6e0b753e6f81d2cee8befc6b4cf44a4d380e6f363d16d2893` | copy of `bin/oneui8/splicehelper` |
 
 The exploit binary loads `/data/local/tmp/df_shellcode.bin`, so both folders keep the same file name. Push the set from one folder only.
