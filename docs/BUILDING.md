@@ -1,6 +1,6 @@
 # Rebuilding from source
 
-A rebuild is only needed after a firmware version change (new kernel = new struct module layout, new symbol CRCs). With the same firmware version, the binaries in `bin/oneui8/` or `bin/oneui6/` work.
+A rebuild is only needed after a firmware version change (new kernel = new struct module layout, new symbol CRCs). With the same firmware version, the binaries in `bin/oneui8/` work.
 
 ## Environment
 

@@ -44,7 +44,7 @@ adb pull $W/new-boot.img magisk-boot.img
 adb push magisk-boot.img /data/local/tmp/magisk-boot.img
 ```
 
-`BOOTMODE=false` is needed: in boot mode the script calls `magisk --preinit-device`, which this way of running does not set up. The run ends with `Repack to boot image: [new-boot.img]` and exit code 0. Output lines such as `Failed to patch` are not all errors. On SM-R860 the first hexpatch (the Samsung RKP removal) prints `Failed to patch`, so RKP stays in that kernel. That was not checked further, and the chain on SM-R860 is unverified.
+`BOOTMODE=false` is needed: in boot mode the script calls `magisk --preinit-device`, which this way of running does not set up. The run ends with `Repack to boot image: [new-boot.img]` and exit code 0. Output lines such as `Failed to patch` are not all errors.
 
 The GUI route still works: Magisk → Install → Patch firmware / image → `boot.img` on the watch, then `adb pull /sdcard/Download/magisk_patched-*.img magisk-boot.img`.
 
