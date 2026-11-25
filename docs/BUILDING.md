@@ -1,6 +1,6 @@
 # Rebuilding from source
 
-A rebuild is only needed after a firmware version change (new kernel = new struct module layout, new symbol CRCs). With the same firmware version, the binaries in `bin/` work.
+A rebuild is only needed after a firmware version change (new kernel = new struct module layout, new symbol CRCs). With the same firmware version, the binaries in `bin/oneui8/` or `bin/oneui6/` work.
 
 ## Environment
 
@@ -27,7 +27,7 @@ ANDROID_JAR="$ANDROID_SDK/platforms/android-34/android.jar"
 D8="$ANDROID_SDK/build-tools/35.0.0/d8"
 
 javac --release 11 -classpath "$ANDROID_JAR" src/DirtyFragSetup.java
-"$D8" --min-api 28 --output bin/ DirtyFragSetup.class
+"$D8" --min-api 28 --output bin/oneui8/ DirtyFragSetup.class
 rm -f DirtyFragSetup.class
 ```
 
@@ -37,13 +37,13 @@ rm -f DirtyFragSetup.class
 NDK="$NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin"
 "$NDK/armv7a-linux-androideabi28-clang" \
     -nostdlib -static -Wl,--oformat=binary -Wl,-Ttext=0 \
-    -o bin/df_shellcode.bin src/shellcode_v6.S
+    -o bin/oneui8/df_shellcode.bin src/shellcode_v6.S
 ```
 
 ## Exploit (ARM32 static)
 
 ```sh
-"$NDK/armv7a-linux-androideabi28-clang" -static -O2 -o bin/dirtyfrag_exploit src/dirtyfrag_exploit.c
+"$NDK/armv7a-linux-androideabi28-clang" -static -O2 -o bin/oneui8/dirtyfrag_exploit src/dirtyfrag_exploit.c
 ```
 
 ## Splicehelper (ARM32 static)
@@ -51,7 +51,7 @@ NDK="$NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin"
 ```sh
 "$NDK/armv7a-linux-androideabi28-clang" \
     -nostdlib -static -Os -Wl,-Ttext=0 \
-    -o bin/splicehelper src/splicehelper.c
+    -o bin/oneui8/splicehelper src/splicehelper.c
 ```
 
 ## Kernel module (ARM64)
@@ -69,7 +69,7 @@ PATH="$TC:$PATH" make -C "$KDIR" M="$MDIR" \
     KBUILD_EXTRA_SYMBOLS="$MDIR/Module.symvers.watch4" modules
 
 "$TC/llvm-strip" --strip-unneeded src/dfroot_w4.ko
-cp src/dfroot_w4.ko bin/
+cp src/dfroot_w4.ko bin/oneui8/
 ```
 
 `Module.symvers.watch4` contains the symbol CRCs extracted from vmlinux. For a new firmware, extract them again.

@@ -54,12 +54,12 @@ A saved `magisk-boot.img` from the same firmware version can be reused.
 
 ```sh
 # run from the repository root
-adb push bin/dirtyfrag_exploit /data/local/tmp/
-adb push bin/df_shellcode.bin  /data/local/tmp/
-adb push bin/dfroot_w4.ko      /data/local/tmp/dfroot.ko
-adb push bin/dfroot_bootstrap  /data/local/tmp/
-adb push bin/classes.dex       /data/local/tmp/
-adb push bin/splicehelper      /data/local/tmp/
+adb push bin/oneui8/dirtyfrag_exploit /data/local/tmp/
+adb push bin/oneui8/df_shellcode.bin  /data/local/tmp/
+adb push bin/oneui8/dfroot_w4.ko      /data/local/tmp/dfroot.ko
+adb push bin/oneui8/dfroot_bootstrap  /data/local/tmp/
+adb push bin/oneui8/classes.dex       /data/local/tmp/
+adb push bin/oneui8/splicehelper      /data/local/tmp/
 adb shell chmod 755 /data/local/tmp/dirtyfrag_exploit /data/local/tmp/dfroot_bootstrap /data/local/tmp/splicehelper
 ```
 

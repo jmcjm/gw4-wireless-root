@@ -32,7 +32,8 @@ The step-by-step procedure with commands is in `SKILL.md`.
 
 | Path | Contents |
 |---|---|
-| `bin/` | Prebuilt chain binaries and `classes.dex`, for firmware `R870XXS2JZG3` |
+| `bin/oneui8/` | Prebuilt chain set for firmware `R870XXS2JZG3` (One UI 8, kernel 5.15.180): shellcode v6, KO built against 5.15 |
+| `bin/oneui6/` | Prebuilt chain set for One UI 6 (`R860XXU1IYI1`, kernel 4.19.151): shellcode v7 (296 B), KO built against the R860 4.19 kernel. Not verified on a device |
 | `src/` | Sources: the ARM32 shellcode, the exploit, the ARM64 kernel module, `DirtyFragSetup.java`, `splicehelper.c` and the bootstrap script |
 | `apk/` | `gw4-adb-keeper.apk`: enables wireless debugging after boot. It needs `WRITE_SECURE_SETTINGS`, granted with `pm grant` |
 | `adbkeeper/` | Sources of the adbkeeper APK and `build.sh`, which builds it from `ANDROID_SDK`. See `docs/BUILDING.md` |
@@ -51,7 +52,7 @@ The step-by-step procedure with commands is in `SKILL.md`.
 
 ## Rebuilding
 
-The binaries in `bin/` work only with the same firmware version. After a firmware change, follow `docs/BUILDING.md`.
+The binaries in `bin/oneui8/` and `bin/oneui6/` work only with the firmware version of their folder. After a firmware change, follow `docs/BUILDING.md`.
 
 ## Credits
 
